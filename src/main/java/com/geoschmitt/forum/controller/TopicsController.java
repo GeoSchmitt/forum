@@ -10,6 +10,11 @@ import com.geoschmitt.forum.model.Topico;
 import com.geoschmitt.forum.repository.CursoRepository;
 import com.geoschmitt.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,15 +36,19 @@ public class TopicsController {
     private CursoRepository cursoRepository;
 
     @GetMapping
-    public List<TopicoDto> list(String name){
+    public Page<TopicoDto> list(@RequestParam(required = false) String name,
+                                //@RequestParam int page,
+                                //@RequestParam int size,
+                                //@RequestParam String sort,
+                                @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
 
-        List<Topico> topicos;
+        //Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
 
+        Page<Topico> topicos;
         if (name == null)
-            topicos = topicoRepository.findAll();
+            topicos = topicoRepository.findAll(pageable);
         else
-            topicos = topicoRepository.findByCursoNome(name);
-
+            topicos = topicoRepository.findByCursoNome(name, pageable);
         return TopicoDto.convert(topicos);
     }
 
