@@ -9,9 +9,11 @@ import com.geoschmitt.forum.repository.CursoRepository;
 import com.geoschmitt.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -38,8 +40,9 @@ public class TopicsController {
         return TopicoDto.convert(topicos);
     }
 
+    //Since v2.30 Spring Boot, Need to import maven dependency starter-validation
     @PostMapping
-    public ResponseEntity<TopicoDto> add(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<TopicoDto> add(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder){
         Topico topico = form.convert(cursoRepository);
         topicoRepository.save(topico);
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
