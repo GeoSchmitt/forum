@@ -10,6 +10,8 @@ import com.geoschmitt.forum.model.Topico;
 import com.geoschmitt.forum.repository.CursoRepository;
 import com.geoschmitt.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,7 @@ public class TopicsController {
     private CursoRepository cursoRepository;
 
     @GetMapping
+    @Cacheable(value="topicList")
     public Page<TopicoDto> list(@RequestParam(required = false) String name,
                                 //@RequestParam int page,
                                 //@RequestParam int size,
@@ -55,6 +58,7 @@ public class TopicsController {
     //Since v2.30 Spring Boot, Need to import maven dependency starter-validation
     @PostMapping
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<TopicoDto> add(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder){
         Topico topico = form.convert(cursoRepository);
         topicoRepository.save(topico);
@@ -71,6 +75,7 @@ public class TopicsController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<TopicoDto> update(@PathVariable Long id, @RequestBody @Valid TopicoUpdateDto form){
         Topico topico = form.update(id, topicoRepository);
         return ResponseEntity.ok(new TopicoDto(topico));
@@ -78,6 +83,7 @@ public class TopicsController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value="topicList", allEntries = true)
     public ResponseEntity<?> remove(@PathVariable Long id){
         topicoRepository.deleteById(id);
         return ResponseEntity.ok().build();
