@@ -1,4 +1,12 @@
 INSERT INTO USUARIO(nome, email, senha) VALUES('Aluno', 'aluno@email.com', '$2a$10$gR1y1JWyrszezGNrRYXdDux1G4Ke1HYgP0V6uF4iP6YmUFPiOBSI6');
+INSERT INTO USUARIO(nome, email, senha) VALUES('Admin', 'admin@email.com', '$2a$10$gR1y1JWyrszezGNrRYXdDux1G4Ke1HYgP0V6uF4iP6YmUFPiOBSI6');
+
+INSERT INTO PRIVILEGE(id, nome) VALUES(1,'ROLE_ALUNO');
+INSERT INTO PRIVILEGE(id, nome) VALUES(2,'ROLE_ADMIN');
+
+INSERT INTO USUARIO_PRIVILEGES(usuario_id, privileges_id) VALUES(1,1);
+INSERT INTO USUARIO_PRIVILEGES(usuario_id, privileges_id) VALUES(2,2);
+
 
 INSERT INTO CURSO(nome, categoria) VALUES('Spring Boot', 'Programação');
 INSERT INTO CURSO(nome, categoria) VALUES('HTML 5', 'Front-end');
