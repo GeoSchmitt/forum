@@ -4,6 +4,7 @@ import com.geoschmitt.forum.config.security.TokenService;
 import com.geoschmitt.forum.controller.dto.LoginForm;
 import com.geoschmitt.forum.controller.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
+@Profile("Production")
 public class AuthenticationController {
 
 
