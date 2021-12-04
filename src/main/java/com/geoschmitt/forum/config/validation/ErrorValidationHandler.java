@@ -1,4 +1,4 @@
-package com.geoschmitt.forum.config;
+package com.geoschmitt.forum.config.validation;
 
 import com.geoschmitt.forum.controller.dto.FormErrorDto;
 import org.springframework.beans.factory.annotation.Autowired;
